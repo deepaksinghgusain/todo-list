@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useRef, useState } from "react";
 
 function App() {
+
+  const [todo,setTodo] = useState([]);
+
+  const inputRef = useRef();
+
+  useEffect(()=> {
+  },[todo])
+
+  const todoHandler = (event) => {
+      event.preventDefault();
+
+      setTodo([
+        ...todo,
+        event.target.value
+      ])
+
+      inputRef.current.value = ' ';
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container my-4 text-center">
+      <div className="mb-3">
+        <input ref={inputRef} type="email" className="form-control" onKeyPress={(event) => {if(event.key == 'Enter') todoHandler(event)}  } />
+      </div>
+      <ul className="list-group">
+        {todo.length ? (
+            todo.map((t,index) =>(
+              <li className="list-group-item" key={index}>{t}</li>
+            ))
+        ) : (
+          <li className="list-group-item">No Todo yet</li>
+        )}
+       
+      </ul>
     </div>
   );
 }
